@@ -1,6 +1,8 @@
 package com.example.musicaiartes.models;
 
-public class TrackItem {
+import java.io.Serializable;
+
+public class TrackItem implements Serializable {
 
     public String trackName;
     public String artistName;

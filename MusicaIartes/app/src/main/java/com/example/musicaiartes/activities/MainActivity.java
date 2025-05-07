@@ -18,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSearch;
     private RecyclerView recyclerView;
     private TrackAdapter adapter;
-    private String CLIENT_ID;
-    private String CLIENT_SECRET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

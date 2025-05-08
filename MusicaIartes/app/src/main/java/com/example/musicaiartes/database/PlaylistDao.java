@@ -22,7 +22,7 @@ public class PlaylistDao {
     public List<Playlist> getAll() {
         List<Playlist> playlists = new ArrayList<>();
         // Atualizando a consulta para buscar o campo image_name
-        Cursor cursor = db.rawQuery("SELECT id, name, image_name FROM playlist", null);
+        Cursor cursor = db.rawQuery("SELECT id, name, image_url FROM playlist", null);
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
             String name = cursor.getString(1);

@@ -30,22 +30,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            // Criação da tabela playlist com o campo image_url como TEXT
+            // Criação da tabela playlist
             db.execSQL("CREATE TABLE " + TABLE_PLAYLIST + " (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, image_url TEXT)");
 
-            // Inserção de playlists com as URLs das imagens
+            // Criação da tabela music
+            db.execSQL("CREATE TABLE " + TABLE_MUSIC + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "name TEXT, " +
+                    "artist TEXT, " +
+                    "album TEXT, " +
+                    "duration TEXT, " +
+                    "url TEXT, " +
+                    "image_url TEXT, " +
+                    "playlist_id INTEGER, " +
+                    "FOREIGN KEY (playlist_id) REFERENCES playlist(id))"
+            );
+
+            // Inserção de playlists iniciais
             insertPlaylistWithImage(db, "Animada", "https://drive.google.com/file/d/13NgSLHx4GFxxYVgkeOewhDAcM4XrJlyL/view?usp=sharing");
             insertPlaylistWithImage(db, "Triste", "https://static.vecteezy.com/system/resources/previews/054/044/158/non_2x/a-frowning-emoji-face-with-a-deep-frown-and-downcast-eyes-conveying-sadness-and-disappointment-in-soft-yellow-tones-png.png");
             insertPlaylistWithImage(db, "Nostálgica", "https://drive.google.com/file/d/1OcuUrVTt2Q2Udk7sj2xNCaSpVpePxFlb/view?usp=drive_link");
             insertPlaylistWithImage(db, "Romântica", "https://drive.google.com/file/d/1OcuUrVTt2Q2Udk7sj2xNCaSpVpePxFlb/view?usp=drive_link");
 
-            Log.d("DatabaseHelper", "Banco de dados criado e playlists inseridas com sucesso.");
+            Log.d("DatabaseHelper", "Banco de dados criado com sucesso.");
         } catch (Exception e) {
-            Log.e("DatabaseHelper", "Erro ao criar banco de dados ou inserir playlists", e);
+            Log.e("DatabaseHelper", "Erro ao criar banco de dados", e);
         }
     }
+
 
     private void insertPlaylistWithImage(SQLiteDatabase db, String name, String imageUrl) {
         try {
@@ -67,12 +82,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Atualização para versão 2, com campo image_url na playlist
         if (oldVersion < 2) {
             db.execSQL("ALTER TABLE " + TABLE_PLAYLIST + " ADD COLUMN image_url TEXT");
         }
+        if (oldVersion < 3) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MUSIC + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "name TEXT, " +
+                    "artist TEXT, " +
+                    "album TEXT, " +
+                    "duration TEXT, " +
+                    "url TEXT, " +
+                    "image_url TEXT, " +
+                    "playlist_id INTEGER, " +
+                    "FOREIGN KEY (playlist_id) REFERENCES playlist(id))"
+            );
+        }
     }
-
     public List<Musica> getMusicasByPlaylistId(int playlistId) {
         List<Musica> musicas = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();

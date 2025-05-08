@@ -1,57 +1,60 @@
 package com.example.musicaiartes.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.*;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.*;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.musicaiartes.R;
-import com.example.musicaiartes.adapters.TrackAdapter;
-import com.example.musicaiartes.models.TrackItem;
-import com.example.musicaiartes.network.SpotifyAuthHelper;
-import com.example.musicaiartes.network.SpotifySearchHelper;
-import io.github.cdimascio.dotenv.Dotenv;
-import java.util.*;
+import com.example.musicaiartes.adapters.PlaylistAdapter;
+import com.example.musicaiartes.database.DatabaseHelper;
+import com.example.musicaiartes.database.PlaylistDao;
+import com.example.musicaiartes.models.Playlist;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText edtSearch;
-    private Button btnSearch;
     private RecyclerView recyclerView;
-    private TrackAdapter adapter;
+    private PlaylistAdapter adapter;
+    private DatabaseHelper dbHelper;
+    private FloatingActionButton fabBuscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); // ou activity_playlists
 
-        edtSearch = findViewById(R.id.edtSearch);
-        btnSearch = findViewById(R.id.btnSearch);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerPlaylists);
+        fabBuscar = findViewById(R.id.fabBuscar);
 
-        adapter = new TrackAdapter(this, new ArrayList<>());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        try {
+            dbHelper = new DatabaseHelper(this);
+            PlaylistDao playlistDao = new PlaylistDao(dbHelper.getReadableDatabase(), this);
+            List<Playlist> playlists = playlistDao.getAll();
 
-        btnSearch.setOnClickListener(v -> {
-            String query = edtSearch.getText().toString();
-            if (!query.isEmpty()) {
-                buscarMusicas(query);
-            }
-        });
+            adapter = new PlaylistAdapter(this, playlists, playlist -> {
+                Intent intent = new Intent(MainActivity.this, PlaylistDetailActivity.class);
+                intent.putExtra("playlistId", playlist.getId());
+                intent.putExtra("playlistName", playlist.getName());
+                startActivity(intent);
+            });
+
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            recyclerView.setAdapter(adapter);
+
+            fabBuscar.setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+            });
+
+            Log.d("MainActivity", "Banco de dados carregado com sucesso e adapter configurado.");
+        } catch (Exception e) {
+            Log.e("MainActivity", "Erro ao inicializar o banco de dados ou a interface", e);
+        }
     }
 
-    private void buscarMusicas(String termo) {
-        new Thread(() -> {
-            String token = SpotifyAuthHelper.getAccessToken();
-            if (token != null) {
-                List<TrackItem> resultados = SpotifySearchHelper.searchTracks(token, termo);
-
-                runOnUiThread(() -> adapter.updateList(resultados));
-            } else {
-                runOnUiThread(() ->
-                        Toast.makeText(this, "Erro ao obter token", Toast.LENGTH_SHORT).show()
-                );
-            }
-        }).start();
-    }
 }

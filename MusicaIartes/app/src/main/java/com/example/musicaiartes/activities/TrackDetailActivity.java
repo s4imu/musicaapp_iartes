@@ -59,7 +59,7 @@ public class TrackDetailActivity extends AppCompatActivity {
         }
 
         DatabaseHelper helper = new DatabaseHelper(this);
-        PlaylistDao playlistDao = new PlaylistDao(helper.getReadableDatabase());
+        PlaylistDao playlistDao = new PlaylistDao(helper.getReadableDatabase(), this);
         playlists = playlistDao.getAll();
 
         ArrayAdapter<Playlist> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playlists);

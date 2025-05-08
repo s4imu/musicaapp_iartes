@@ -4,10 +4,12 @@ public class Playlist {
 
     private int id;
     private String name;
+    private String imageUrl;  // URL da imagem
 
-    public Playlist(int id, String name) {
+    public Playlist(int id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -16,6 +18,10 @@ public class Playlist {
 
     public String getName() {
         return name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     @Override

@@ -8,6 +8,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:padding="8dp"
+        android:background="@drawable/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,6 +27,7 @@
 
             <TextView
                 android:id="@+id/txtTrack"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
@@ -33,16 +35,19 @@
 
             <TextView
                 android:id="@+id/txtArtist"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/txtAlbum"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/txtDuration"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

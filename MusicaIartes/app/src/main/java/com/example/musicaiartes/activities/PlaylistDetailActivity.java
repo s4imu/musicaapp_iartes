@@ -1,15 +1,16 @@
 package com.example.musicaiartes.activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import androidx.appcompat.app.AlertDialog;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.musicaiartes.R;
 import com.example.musicaiartes.adapters.MusicaAdapter;
 import com.example.musicaiartes.database.DatabaseHelper;
@@ -40,13 +41,31 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         List<Musica> musicas = dbHelper.getMusicasByPlaylistId(playlistId);
 
-        adapter = new MusicaAdapter(musicas, musica -> showMusicaDetailDialog(musica));
+        adapter = new MusicaAdapter(musicas, musica -> {
+            String spotifyUrl = musica.getUrl(); // ou musica.getSpotifyUrl() dependendo do seu model
+            if (spotifyUrl != null && !spotifyUrl.isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotifyUrl));
+                intent.setPackage("com.spotify.music");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    // Spotify não instalado, abrir no navegador
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotifyUrl));
+                    startActivity(webIntent);
+                }
+            } else {
+                Toast.makeText(this, "Link do Spotify inválido.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         // Swipe para deletar
         ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override public boolean onMove(RecyclerView rv, RecyclerView.ViewHolder vh, RecyclerView.ViewHolder target) { return false; }
+            @Override public boolean onMove(RecyclerView rv, RecyclerView.ViewHolder vh, RecyclerView.ViewHolder target) {
+                return false;
+            }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
@@ -57,28 +76,5 @@ public class PlaylistDetailActivity extends AppCompatActivity {
             }
         };
         new ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView);
-    }
-
-    private void showMusicaDetailDialog(Musica musica) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_musica_detail, null);
-
-        ((TextView) view.findViewById(R.id.textMusicaNome)).setText(musica.getName());
-        ((TextView) view.findViewById(R.id.textMusicaArtista)).setText(musica.getArtist());
-        ((TextView) view.findViewById(R.id.textMusicaAlbum)).setText(musica.getAlbum());
-        ((TextView) view.findViewById(R.id.textMusicaDuracao)).setText(musica.getDuration());
-
-        TextView textLink = view.findViewById(R.id.textMusicaLink);
-        textLink.setOnClickListener(v -> {
-            String spotifyUrl = musica.getUrl();
-            if (spotifyUrl != null && !spotifyUrl.isEmpty()) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotifyUrl));
-                startActivity(intent);
-            }
-        });
-
-        builder.setView(view);
-        builder.setPositiveButton("Voltar", null);
-        builder.create().show();
     }
 }

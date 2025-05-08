@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="ciano">#1bc8cf</color>
+    <color name="ciano_one">#00b0fb</color>
+    <color name="brightviolet">#6229f6</color>
+    <color name="veryDarkcyan">#11605f</color>
+    <color name="veryDarkDesaturatedBlue">#343860</color>
+    <color name="preto">#070808</color>
+    <color name="cinza">#a0a0a0</color>
+    <color name="verdeneon">#56f765</color>
+    <color name="vermelho">#FF0000</color>
 </resources>

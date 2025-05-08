@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/backgroundtwo"
     android:padding="16dp">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="18sp"
+        android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -21,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Artista"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/textMusicaNome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -30,6 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Álbum"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/textMusicaArtista"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -39,6 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Duração"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/textMusicaAlbum"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -48,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Abrir no Spotify"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="@color/preto"
         android:textStyle="italic"
         android:autoLink="web"
         app:layout_constraintTop_toBottomOf="@id/textMusicaDuracao"

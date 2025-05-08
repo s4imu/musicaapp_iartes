@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background"
     android:padding="8dp">
+
+
 
     <ImageView
         android:id="@+id/imageMusica"
@@ -22,6 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Nome da Música"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/imageMusica"
         app:layout_constraintTop_toTopOf="@id/imageMusica"
@@ -33,6 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Artista"
+        android:textColor="@color/preto"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/textNomeMusica"
         app:layout_constraintStart_toStartOf="@id/textNomeMusica"

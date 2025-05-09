@@ -3,7 +3,9 @@ package com.example.musicaiartes.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +15,9 @@ import com.example.musicaiartes.adapters.PlaylistAdapter;
 import com.example.musicaiartes.database.DatabaseHelper;
 import com.example.musicaiartes.database.PlaylistDao;
 import com.example.musicaiartes.models.Playlist;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
 
@@ -22,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PlaylistAdapter adapter;
     private DatabaseHelper dbHelper;
-    private FloatingActionButton fabBuscar;
+    private BottomNavigationView bottomMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main); // ou activity_playlists
 
         recyclerView = findViewById(R.id.recyclerPlaylists);
-        fabBuscar = findViewById(R.id.fabBuscar);
 
         try {
             dbHelper = new DatabaseHelper(this);
@@ -47,8 +50,22 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             recyclerView.setAdapter(adapter);
 
-            fabBuscar.setOnClickListener(view -> {
-                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+            bottomMenu = findViewById(R.id.bottomNavigation);
+
+            bottomMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    if (item.getItemId() == R.id.nav_home) {
+                        //TODO Verificar se já está na tela de home
+                        return true;
+                    }
+                    else if (item.getItemId() == R.id.nav_search) {
+                        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                    else return false;
+                }
             });
 
             Log.d("MainActivity", "Banco de dados carregado com sucesso e adapter configurado.");

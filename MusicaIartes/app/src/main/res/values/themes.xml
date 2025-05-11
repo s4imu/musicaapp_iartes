@@ -2,8 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MusicaIartes" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/brightviolet</item>
+        <item name="colorPrimary">@color/verdeneon</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!--fundo da barra do relogio -->
+        <item name="android:statusBarColor" tools:targetApi="1">@color/black</item>
     </style>
 
     <style name="Theme.MusicaIartes" parent="Base.Theme.MusicaIartes" />

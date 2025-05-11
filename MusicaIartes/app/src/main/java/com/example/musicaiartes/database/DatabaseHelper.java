@@ -50,10 +50,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             );
 
             // Inserção de playlists iniciais
-            insertPlaylistWithImage(db, "Animada", "https://drive.google.com/file/d/13NgSLHx4GFxxYVgkeOewhDAcM4XrJlyL/view?usp=sharing");
+            insertPlaylistWithImage(db, "Animada", "https://static.vecteezy.com/system/resources/previews/054/044/110/non_2x/a-joyful-beaming-emoji-face-with-smiling-eyes-and-a-wide-grin-exuding-happiness-and-positivity-with-bright-yellow-colors-and-simple-design-png.png");
             insertPlaylistWithImage(db, "Triste", "https://static.vecteezy.com/system/resources/previews/054/044/158/non_2x/a-frowning-emoji-face-with-a-deep-frown-and-downcast-eyes-conveying-sadness-and-disappointment-in-soft-yellow-tones-png.png");
-            insertPlaylistWithImage(db, "Nostálgica", "https://drive.google.com/file/d/1OcuUrVTt2Q2Udk7sj2xNCaSpVpePxFlb/view?usp=drive_link");
-            insertPlaylistWithImage(db, "Romântica", "https://drive.google.com/file/d/1OcuUrVTt2Q2Udk7sj2xNCaSpVpePxFlb/view?usp=drive_link");
+            insertPlaylistWithImage(db, "Nostálgica", "https://cdn-icons-png.flaticon.com/256/3744/3744645.png");
+            insertPlaylistWithImage(db, "Romântica", "https://www.pngplay.com/wp-content/uploads/6/Love-Emoji-PNG-Clipart-Background.png");
 
             Log.d("DatabaseHelper", "Banco de dados criado com sucesso.");
         } catch (Exception e) {

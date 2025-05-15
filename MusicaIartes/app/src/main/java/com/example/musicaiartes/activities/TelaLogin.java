@@ -1,7 +1,10 @@
 package com.example.musicaiartes.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -27,7 +30,7 @@ public class TelaLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tela_login);
 
         Log.i("Debug", "Tela inicial carregada");
 
@@ -46,14 +49,26 @@ public class TelaLogin extends AppCompatActivity {
         String usuario = login.getText().toString();
         String senha = password.getText().toString();
 
-        String msg = "O login é " + usuario + " e a senha é " + senha;
-
-        // Verificação básica com valores fixos
         if (usuario.equals("admin") && senha.equals("admin")) {
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-            // Você pode adicionar outra ação aqui, como abrir uma nova tela futuramente
+            Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
+
+            // Redirecionar para MainActivity
+            Intent intent = new Intent(TelaLogin.this, MainActivity.class);
+            startActivity(intent);
+            finish(); // Encerra a tela de login para que o usuário não volte com o botão "Voltar"
         } else {
             usuarioinvalido.setVisibility(View.VISIBLE);
+
+            // Usando Handler corretamente no Android 11+
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            usuarioinvalido.setVisibility(View.INVISIBLE);
+                        }
+                    },
+                    3000 // 3 segundos
+            );
         }
     }
 }
